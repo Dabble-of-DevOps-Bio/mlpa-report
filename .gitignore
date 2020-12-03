@@ -329,3 +329,6 @@ mlpa_reporting/media/
 .env
 .envs/*
 !.envs/.local/
+
+.idea
+**/.ipynb_checkpoints

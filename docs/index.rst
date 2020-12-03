@@ -10,6 +10,7 @@ Welcome to MLPA Reporting's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+   Data-Model/MLPA-Data-Model.ipynb
 
 
 

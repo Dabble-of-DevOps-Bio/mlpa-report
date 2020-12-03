@@ -39,6 +39,8 @@ author = "Jillian Rowe"
 extensions = [
     "sphinx.ext.autodoc",
     "sphinx.ext.napoleon",
+    "nbsphinx",
+    'recommonmark'
 ]
 
 # Add any paths that contain templates here, relative to this directory.
