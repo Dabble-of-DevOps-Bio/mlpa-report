@@ -1,0 +1,73 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_postgres_data_backups: {}
+
+services:
+
+  # This is just a bootstrap for the eventual django project
+  django:
+    build:
+      context: .
+      dockerfile: ./compose/local/django/Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - .:/app:z
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    ports:
+      - "8000:8000"
+    command: |
+      bash -c "tail -f /dev/null"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data:Z
+      - local_postgres_data_backups:/backups:z
+#      - ./data:/data
+    env_file:
+      - ./.envs/.local/.postgres
+
+  docs:
+    build:
+      context: .
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+    volumes:
+      - ./docs:/docs:z
+      - ./config:/app/config:z
+      - ./mlpa_reporting:/app/mlpa_reporting:z
+    ports:
+      - "7000:7000"
+    command: |
+      bash -c "cd /docs && make livehtml"
+
+  adminer:
+    image: adminer:4.7.7
+    restart: always
+    ports:
+      - 8080:8080
+
+  jupyter:
+    build:
+      context: .
+      dockerfile: ./compose/local/docs/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+    volumes:
+      - ./docs:/docs:z
+      - ./config:/app/config:z
+      - ./data:/data:z
+    ports:
+      - "8888:8888"
+    working_dir: "/"
+    command:
+      bash -c "jupyter notebook --ip 0.0.0.0 --allow-root"

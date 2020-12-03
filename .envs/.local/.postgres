@@ -1,0 +1,10 @@
+# PostgreSQL
+# ------------------------------------------------------------------------------
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_DB=mlpa_reporting
+POSTGRES_USER=vFUHHxfWQRErYOhtOTxuxMvRDMwDaLUK
+POSTGRES_PASSWORD=AklAYVHYsbuauu1oCEOifGBvRq2O2Ow1mjMXdx9C0bDA5g6xKixO4uYTLFC3IRFC
+
+DB_URL="postgresql://${POSTGRES_HOST}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}/${POSTGRES_DB}"
+DATABASE_URL=${DB_URL}
